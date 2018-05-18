@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Hotels";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="tableBlock"><h2>Вщлывлфыждвлфыдовфылджвтфлтвф</h2></div>
+<h2>Hotels</h2>
+<button class="btn" onclick="GetAllBooks()"></button>
+@section scripts{
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        GetAllBooks();
+    });
+
+    function GetAllBooks() {
+        $.ajax({
+            url: '/api/Hotel',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                alert("Data loaded")
+                WriteResponse(data);            
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+    function WriteResponse(hotels) {
+        var strResult = "<table>";
+        alert("Start forming")
+    $.each(hotels, function (index, hotel) {
+            strResult += '<div class="jumbotron">'
+            strResult += '<div class="row">'
+            strResult += '<div class="col-lg-12">'
+            strResult += '<h1>' + hotel.Name + '</h1>'
+            strResult += '<h3> Has '+ hotel.Name +' stars </h3>'
+            strResult += '<h3> Address: '+ hotel.Address +'</h3>'
+            strResult += '<h3> Amount of availible rooms: '+ hotel.Rooms.length +'</h3>'
+            strResult += '<p><a href="/" class="btn btn-primary btn-lg" data-item-id=' + hotel.Id + '>Show Rooms &raquo;</a></p>'
+            strResult += '</div>'
+            strResult += '</div>'
+            strResult += '</div>"'
+            strResult += "/<table>";
+    });
+    $('#tableBlock').html = "<h3>Hello</h3>";
+        alert("Changed HTML")
+        }
+</script>
+}
