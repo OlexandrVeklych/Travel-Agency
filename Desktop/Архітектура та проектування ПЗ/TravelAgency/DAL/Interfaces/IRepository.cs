@@ -13,7 +13,7 @@ namespace DAL
         void Delete(int Id);
         void Delete(T Entity);
         void Add(T Entity);
-        void Modify(T NewItem);
+       // void Modify(T NewItem);
         void Modify(int Id, T NewItem);
         T Get(int Id);
         T GetByPosition(int Position);

@@ -259,7 +259,10 @@ namespace LogicTests
             HotelLogic.AddHotel(new Logic.DTOs.HotelDTO("Verkhovina", 3, "Khust, Zhayvoronkova 44/2"));
             HotelLogic.AddHotelRoom(HotelLogic.GetAllHotels().ToList()[0].Id, new Logic.DTOs.HotelRoomDTO(1, 3, 250));
             UserLogic.AddUser(new Logic.DTOs.UserDTO("Sasha", Logic.DTOs.UserType.User, "Veklych", "Login", "Password"));
-            UserLogic.ReserveRoom(1, 1, 1);
+            Assert.That(UoW.Object.HotelsRooms.GetAll().Count() == 1);
+
+            Assert.That(HotelLogic.GetAllHotels().ToList()[0].Rooms.Count() == 1);
+            UserLogic.ReserveRoom(1, 1,1, DateTimeOffset.Parse("21.12.2018"), DateTimeOffset.Parse("25.12.2018"));
 
             var User = UserLogic.GetAllUsers().First(u => u.Id == 1);
 
@@ -272,8 +275,39 @@ namespace LogicTests
             Assert.That(User.HotelRoomReservations[0].HotelStars == 3);
             Assert.That(User.HotelRoomReservations[0].ClientName == "Sasha");
             Assert.That(User.HotelRoomReservations[0].ClientSurname == "Veklych");
-            Assert.That(HotelLogic.GetAllHotels().First(h => h.Id == 1).Rooms.First(r => r.Id == 1).IsBooked);
-            Assert.Throws<AlreadyBookedItemException>(delegate { UserLogic.ReserveRoom(1, 1, 1); });
+            Assert.That(User.HotelRoomReservations[0].ArrivalDate.CompareTo(DateTimeOffset.Parse("21.12.2018")) == 0);
+            Assert.That(User.HotelRoomReservations[0].DepartureDate.CompareTo(DateTimeOffset.Parse("25.12.2018")) == 0);
+
+            Assert.That(HotelLogic.GetAllHotels().First(h => h.Id == 1).Rooms.First(r => r.Id == 1).BookedDays.Contains(DateTimeOffset.Parse("21.12.2018")));
+            Assert.That(HotelLogic.GetAllHotels().First(h => h.Id == 1).Rooms.First(r => r.Id == 1).BookedDays.Contains(DateTimeOffset.Parse("22.12.2018")));
+            Assert.That(HotelLogic.GetAllHotels().First(h => h.Id == 1).Rooms.First(r => r.Id == 1).BookedDays.Contains(DateTimeOffset.Parse("23.12.2018")));
+            Assert.That(HotelLogic.GetAllHotels().First(h => h.Id == 1).Rooms.First(r => r.Id == 1).BookedDays.Contains(DateTimeOffset.Parse("24.12.2018")));
+            Assert.That(!HotelLogic.GetAllHotels().First(h => h.Id == 1).Rooms.First(r => r.Id == 1).BookedDays.Contains(DateTimeOffset.Parse("25.12.2018")));
+
+            Assert.Throws<AlreadyBookedItemException>(delegate { UserLogic.ReserveRoom(1, 1, 1, DateTimeOffset.Parse("23.12.2018"), DateTimeOffset.Parse("24.12.2018")); });
+
+            UserLogic.ReserveRoom(1, 1, 1, DateTimeOffset.Parse("25.12.2018"), DateTimeOffset.Parse("28.12.2018"));
+
+            User = UserLogic.GetAllUsers().First(u => u.Id == 1);
+
+            Assert.That(User.HotelRoomReservations.Count == 2);
+            Assert.That(User.HotelRoomReservations[1].HotelAddress == "Khust, Zhayvoronkova 44/2");
+            Assert.That(User.HotelRoomReservations[1].HotelName == "Verkhovina");
+            Assert.That(User.HotelRoomReservations[1].HotelRoomNumber == 1);
+            Assert.That(User.HotelRoomReservations[1].HotelRoomPrice == 250);
+            Assert.That(User.HotelRoomReservations[1].HotelRoomSleepingPlaces == 3);
+            Assert.That(User.HotelRoomReservations[1].HotelStars == 3);
+            Assert.That(User.HotelRoomReservations[1].ClientName == "Sasha");
+            Assert.That(User.HotelRoomReservations[1].ClientSurname == "Veklych");
+            Assert.That(User.HotelRoomReservations[1].ArrivalDate.CompareTo(DateTimeOffset.Parse("25.12.2018")) == 0);
+            Assert.That(User.HotelRoomReservations[1].DepartureDate.CompareTo(DateTimeOffset.Parse("28.12.2018")) == 0);
+
+
+            Assert.That(HotelLogic.GetAllHotels().First(h => h.Id == 1).Rooms.First(r => r.Id == 1).BookedDays.Contains(DateTimeOffset.Parse("27.12.2018")));
+            Assert.That(HotelLogic.GetAllHotels().First(h => h.Id == 1).Rooms.First(r => r.Id == 1).BookedDays.Contains(DateTimeOffset.Parse("26.12.2018")));
+            Assert.That(HotelLogic.GetAllHotels().First(h => h.Id == 1).Rooms.First(r => r.Id == 1).BookedDays.Contains(DateTimeOffset.Parse("25.12.2018")));
+
+            Assert.Throws<AlreadyBookedItemException>(delegate { UserLogic.ReserveRoom(1, 1, 1, DateTimeOffset.Parse("19.12.2018"), DateTimeOffset.Parse("30.12.2018")); });
         }
 
         [Test]

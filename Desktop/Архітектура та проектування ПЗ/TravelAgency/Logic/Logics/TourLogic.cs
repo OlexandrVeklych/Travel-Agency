@@ -48,7 +48,9 @@ namespace Logic
 
         public void EditTour(int Id, TourDTO Tour)
         {
-            UoW.ToursTemplates.Modify(Id, TourLogicMapper.Map<TourDTO, Tour>(Tour));
+            Tour tour = UoW.ToursTemplates.Get(Id);
+            tour = TourLogicMapper.Map<TourDTO, Tour>(Tour);
+            UoW.ToursTemplates.Modify(Id, tour);
         }
 
         public IEnumerable<TourDTO> GetAllToursTemplates()

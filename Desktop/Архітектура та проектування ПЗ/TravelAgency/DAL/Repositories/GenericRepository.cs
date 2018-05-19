@@ -41,15 +41,14 @@ namespace DAL
             DbSet.Add(Item);
             Context.SaveChanges();
         }
-        public void Modify(T Item)
+        /*public void Modify(T Item)
         {
             Context.Entry(Item).State = EntityState.Modified;
             Context.SaveChanges();
-        }
+        }*/
         public void Modify(int Id, T Item)
         {
-            Context.Entry(Context.Set<T>().Find(Id)).State = EntityState.Detached;
-            Context.Entry(Item).State = EntityState.Modified;
+            Context.Entry(Context.Set<T>().Find(Id)).CurrentValues.SetValues(Item);
             Context.SaveChanges();
         }
         public T Get(int Id)

@@ -17,7 +17,7 @@ namespace DAL.Entities
             this.Number = Number;
             this.SleepingPlaces = SleepingPlaces;
             this.Price = Price;
-            IsBooked = false;
+            BookedDays = new List<DateTimeOffset>();
         }
 
         public int Id { get; set; }
@@ -27,6 +27,6 @@ namespace DAL.Entities
         public int Number { get; set; }
         public int SleepingPlaces { get; set; }
         public int Price { get; set; }
-        public bool IsBooked { get; set; }
+        public List<DateTimeOffset> BookedDays { get; set; }
     }
 }

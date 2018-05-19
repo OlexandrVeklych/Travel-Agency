@@ -52,17 +52,17 @@ namespace Logic
 
         public void AddHotelRoom(int HotelId, HotelRoomDTO NewHotelRoom)
         {
-            Hotel temp = UoW.Hotels.Get(HotelId);
-            HotelRoom room = HotelLogicMapper.Map<HotelRoom>(NewHotelRoom);
-            room.Hotel = temp;
-            temp.Rooms.Add(room);
-            UoW.Hotels.Modify(temp);
+            Hotel hotel = UoW.Hotels.Get(HotelId);
+            HotelRoom room = HotelLogicMapper.Map<HotelRoomDTO, HotelRoom>(NewHotelRoom);
+            room.Hotel = hotel;
+            hotel.Rooms.Add(room);
+            UoW.Hotels.Modify(hotel.Id, hotel);
         }
 
         public IEnumerable<HotelDTO> GetAllHotels()
         {
-            return new List<HotelDTO> { new HotelDTO("Hust", 3, "Leleki 25"), new HotelDTO("Tisa", 3, "Mokili 255") };
-            //return HotelLogicMapper.Map<IEnumerable<Hotel>, List<HotelDTO>>(UoW.Hotels.GetAll(h => h.Rooms));
+            //return new List<HotelDTO> { new HotelDTO("Hust", 3, "Leleki 25"), new HotelDTO("Tisa", 3, "Mokili 255") };
+            return HotelLogicMapper.Map<IEnumerable<Hotel>, List<HotelDTO>>(UoW.Hotels.GetAll(h => h.Rooms));
         }
 
         public HotelDTO GetHotel(int Id)
