@@ -231,11 +231,11 @@ namespace LogicTests
 
             Assert.That(TourLogic.FindTourTemplatesByCity("New Yourk").ToList()[0].Country == "USA");
 
-            Assert.That(TourLogic.FindTourTemplatesByDuration(3).Count() == 3);
-            Assert.That(TourLogic.FindTourTemplatesByDuration(10).Count() == 1);
-            Assert.That(TourLogic.FindTourTemplatesByDuration(1000000).Count() == 0);
-            Assert.That(TourLogic.FindTourTemplatesByDuration(10).ToList()[0].Country == "USA");
-            Assert.That(TourLogic.FindTourTemplatesByDuration(10).ToList()[0].Price == 500);
+            Assert.That(TourLogic.FindTourTemplatesByDuration(0, 3).Count() == 5);
+            Assert.That(TourLogic.FindTourTemplatesByDuration(10, 10).Count() == 1);
+            Assert.That(TourLogic.FindTourTemplatesByDuration(1000000, 10000000).Count() == 0);
+            Assert.That(TourLogic.FindTourTemplatesByDuration(10, 20).ToList()[0].Country == "USA");
+            Assert.That(TourLogic.FindTourTemplatesByDuration(10, 15).ToList()[0].Price == 500);
 
 
             Assert.That(TourLogic.FindTourTemplatesByPrice(250, 250).Count() == 2);

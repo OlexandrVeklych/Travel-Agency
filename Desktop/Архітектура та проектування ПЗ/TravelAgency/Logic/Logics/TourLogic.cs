@@ -60,7 +60,7 @@ namespace Logic
 
         public IEnumerable<TourDTO> FindTourTemplatesByPrice(int MinPrice, int MaxPrice)
         {
-            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll(t => t.Price <= MaxPrice && t.Price >= MinPrice));
+            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll(t => t.Price >= MinPrice && t.Price <= MaxPrice));
         }
 
         public IEnumerable<TourDTO> FindTourTemplatesByType(string Type)
@@ -78,9 +78,9 @@ namespace Logic
             return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll(t => t.Country == Country));
         }
 
-        public IEnumerable<TourDTO> FindTourTemplatesByDuration(int Duration)
+        public IEnumerable<TourDTO> FindTourTemplatesByDuration(int MinDuration, int MaxDuration)
         {
-            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll(t => t.Duration == Duration));
+            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll(t => t.Duration >= MinDuration && t.Duration <= MaxDuration));
         }
 
         public IEnumerable<TourDTO> GetAllToursTemplatesOrderedByPrice()
