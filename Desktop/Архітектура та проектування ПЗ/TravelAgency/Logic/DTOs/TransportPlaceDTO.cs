@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Logic.DTOs
@@ -20,7 +19,6 @@ namespace Logic.DTOs
         }
 
         public int Id { get; set; }
-        [ForeignKey("TransportId")]
         public virtual TransportDTO Transport { get; set; }
         public int TransportId { get; set; }
         public int Number { get; set; }

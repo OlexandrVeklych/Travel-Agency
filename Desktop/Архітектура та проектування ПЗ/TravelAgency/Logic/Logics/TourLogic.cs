@@ -58,9 +58,49 @@ namespace Logic
             return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll());
         }
 
+        public IEnumerable<TourDTO> FindTourTemplatesByPrice(int MinPrice, int MaxPrice)
+        {
+            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll(t => t.Price <= MaxPrice && t.Price >= MinPrice));
+        }
+
+        public IEnumerable<TourDTO> FindTourTemplatesByType(string Type)
+        {
+            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll(t => t.Type == Type));
+        }
+
+        public IEnumerable<TourDTO> FindTourTemplatesByCity(string City)
+        {
+            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll(t => t.City == City));
+        }
+
+        public IEnumerable<TourDTO> FindTourTemplatesByCountry(string Country)
+        {
+            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll(t => t.Country == Country));
+        }
+
+        public IEnumerable<TourDTO> FindTourTemplatesByDuration(int Duration)
+        {
+            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll(t => t.Duration == Duration));
+        }
+
+        public IEnumerable<TourDTO> GetAllToursTemplatesOrderedByPrice()
+        {
+            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll().OrderBy(t => t.Price));
+        }
+
+        public IEnumerable<TourDTO> GetAllToursTemplatesOrderedByDuration()
+        {
+            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll().OrderBy(t => t.Duration));
+        }
+
+        public IEnumerable<TourDTO> GetAllToursTemplatesOrderedByCountry()
+        {
+            return TourLogicMapper.Map<IEnumerable<Tour>, List<TourDTO>>(UoW.ToursTemplates.GetAll().OrderBy(t => t.Country));
+        }
+
         public TourDTO GetTour(int Id)
         {
-            return TourLogicMapper.Map<Tour, TourDTO>(UoW.ToursTemplates.GetAll().FirstOrDefault(t => t.Id == Id));
+            return TourLogicMapper.Map<Tour, TourDTO>(UoW.ToursTemplates.GetAll(t => t.Id == Id).FirstOrDefault());
         }
     }
 }

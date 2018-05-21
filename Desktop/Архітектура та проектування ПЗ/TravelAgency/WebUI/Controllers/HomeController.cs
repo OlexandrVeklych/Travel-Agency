@@ -14,12 +14,5 @@ namespace WebUI.Controllers
 
             return View();
         }
-
-        public ActionResult Hotels()
-        {
-            ViewBag.Title = "Home Page";
-
-            return View();
-        }
     }
 }

@@ -59,7 +59,7 @@ namespace Logic
 
         public TransportDTO GetTransport(int Id)
         {
-            return GetAllTransport().FirstOrDefault(t => t.Id == Id);
+            return TransportLogicMapper.Map<Transport, TransportDTO>(UoW.Transports.GetAll(t => t.Id == Id, t => t.TransportPlaces).FirstOrDefault());
         }
     }
 }

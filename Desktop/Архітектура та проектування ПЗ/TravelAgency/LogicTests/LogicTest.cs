@@ -199,6 +199,51 @@ namespace LogicTests
         }
 
         [Test]
+        public void FindingTour()
+        {
+            var UoW = new Mock<UnitOfWork>();
+            UoW.Object.DeleteDB();
+
+            var TourLogic = new TourLogic(UoW.Object);
+
+            TourLogic.AddTour(new Logic.DTOs.TourDTO("Karpaty", 250, "Excursion", "Ukraine", "Hust", 3, "Very nice mountains tour"));
+            TourLogic.AddTour(new Logic.DTOs.TourDTO("Karpaty1", 300, "Hot", "Hungary", "Moscow", 2, "Very nice mountains tour"));
+            TourLogic.AddTour(new Logic.DTOs.TourDTO("Karpaty2", 300, "All", "Ukraine", "Moscow", 2, "Very nice mountains tour"));
+            TourLogic.AddTour(new Logic.DTOs.TourDTO("Karpaty3", 300, "All", "Ukraine", "Kyiv", 3, "Very nice mountains tour"));
+            TourLogic.AddTour(new Logic.DTOs.TourDTO("Karpaty4", 250, "Hot", "Hungary", "Hust", 3, "Very nice mountains tour"));
+            TourLogic.AddTour(new Logic.DTOs.TourDTO("Karpaty5", 500, "Hot", "USA", "New Yourk", 10, "Very nice mountains tour"));
+
+            Assert.That(TourLogic.GetAllToursTemplates().Count() == 6);
+
+            Assert.That(TourLogic.FindTourTemplatesByType("Hot").Count() == 3);
+            Assert.That(TourLogic.FindTourTemplatesByType("Excursion").Count() == 1);
+            Assert.That(TourLogic.FindTourTemplatesByType("Error").Count() == 0);
+            Assert.That(TourLogic.FindTourTemplatesByType("Excursion").ToList()[0].City == "Hust");
+
+            Assert.That(TourLogic.FindTourTemplatesByCountry("USA").Count() == 1);
+            Assert.That(TourLogic.FindTourTemplatesByCountry("Ukraine").Count() == 3);
+            Assert.That(TourLogic.FindTourTemplatesByCountry("Error").Count() == 0);
+            Assert.That(TourLogic.FindTourTemplatesByCountry("USA").ToList()[0].City == "New Yourk");
+
+            Assert.That(TourLogic.FindTourTemplatesByCity("Moscow").Count() == 2);
+            Assert.That(TourLogic.FindTourTemplatesByCity("New Yourk").Count() == 1);
+            Assert.That(TourLogic.FindTourTemplatesByCity("Error").Count() == 0);
+
+            Assert.That(TourLogic.FindTourTemplatesByCity("New Yourk").ToList()[0].Country == "USA");
+
+            Assert.That(TourLogic.FindTourTemplatesByDuration(3).Count() == 3);
+            Assert.That(TourLogic.FindTourTemplatesByDuration(10).Count() == 1);
+            Assert.That(TourLogic.FindTourTemplatesByDuration(1000000).Count() == 0);
+            Assert.That(TourLogic.FindTourTemplatesByDuration(10).ToList()[0].Country == "USA");
+            Assert.That(TourLogic.FindTourTemplatesByDuration(10).ToList()[0].Price == 500);
+
+
+            Assert.That(TourLogic.FindTourTemplatesByPrice(250, 250).Count() == 2);
+            Assert.That(TourLogic.FindTourTemplatesByPrice(250, 300).Count() == 5);
+            Assert.That(TourLogic.FindTourTemplatesByPrice(100, 249).Count() == 0);
+        }
+
+        [Test]
         public void AddingUser()
         {
             var UoW = new Mock<UnitOfWork>();

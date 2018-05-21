@@ -78,7 +78,7 @@ namespace Logic
 
         public UserDTO GetUser(int Id)
         {
-            return GetAllUsers().FirstOrDefault(u => u.Id == Id);
+            return UserLogicMapper.Map<User, UserDTO>(UoW.Users.GetAll(u => u.Id == Id, u => u.HotelRoomReservations, u => u.TransportTickets, u => u.Tours).FirstOrDefault());
         }
 
         public void EditUser(int Id, UserDTO User)
@@ -93,7 +93,7 @@ namespace Logic
 
         public UserDTO Enter(string Login, string Password)
         {
-            UserDTO user = GetAllUsers().FirstOrDefault(u => u.Login == Login && u.Password == Password);
+            UserDTO user = UserLogicMapper.Map<User, UserDTO>(UoW.Users.GetAll(u => u.Login == Login && u.Password == Password, u => u.TransportTickets, u => u.Tours, u => u.HotelRoomReservations).FirstOrDefault());
             if (user == null)
                 throw new InvalidLoginPasswordCombinationException("Invalid login password combination");
             return user;
@@ -102,15 +102,15 @@ namespace Logic
         public void ReserveTour(int UserId, int TourId)
         {
             Tour tour = UoW.ToursTemplates.Get(TourId);
-            User user = UoW.Users.Get(UserId);
+            User user = UoW.Users.GetAll(u => u.Id == UserId, u => u.Tours).FirstOrDefault();
             user.Tours.Add(tour);
             UoW.Users.Modify(user.Id, user);
         }
 
         public void ReserveRoom(int UserId, int HotelId, int HotelRoomId, DateTimeOffset ArrivalDate, DateTimeOffset DepartureDate)
         {
-            User user = UoW.Users.GetAll(u => u.HotelRoomReservations).First(x => x.Id == UserId);
-            HotelRoom hotelroom =UoW.Hotels.GetAll(h => h.Rooms).FirstOrDefault(h => h.Id == HotelId).Rooms[0];
+            User user = UoW.Users.GetAll(u => u.Id == UserId, u => u.HotelRoomReservations).FirstOrDefault();
+            HotelRoom hotelroom = UoW.Hotels.GetAll(h => h.Id == HotelId, h => h.Rooms).FirstOrDefault().Rooms.FirstOrDefault();
 
             foreach (DateTimeOffset d in hotelroom.BookedDays)
             {
@@ -138,8 +138,8 @@ namespace Logic
         public void ReserveTicket(int UserId, int TransportId, int SeatNumber)
         {
             User user = UoW.Users.Get(UserId);
-            Transport transport = UoW.Transports.Get(TransportId);
-            TransportPlace transportplace = transport.TransportPlaces.FirstOrDefault(r => r.Number == SeatNumber);
+            Transport transport = UoW.Transports.GetAll(t => t.Id == TransportId, t => t.TransportPlaces).FirstOrDefault();
+            TransportPlace transportplace = transport.TransportPlaces.FirstOrDefault(p => p.Number == SeatNumber);
             if (transportplace.IsBooked)
                 throw new AlreadyBookedItemException("Transport place is already booked");
             else

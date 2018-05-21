@@ -8,15 +8,6 @@ namespace WebUI.Models
 {
     public class HotelRoomModel
     {
-        public HotelRoomModel() { }
-        public HotelRoomModel(int Number, int SleepingPlaces, int Price)
-        {
-            this.Number = Number;
-            this.SleepingPlaces = SleepingPlaces;
-            this.Price = Price;
-            BookedDays = new List<DateTimeOffset>();
-        }
-
         public int Id { get; set; }
         public int HotelId { get; set; }
         public virtual HotelModel Hotel { get; set; }

@@ -8,21 +8,6 @@ namespace Logic.DTOs
 {
     public class HotelRoomReservationDTO
     {
-        public HotelRoomReservationDTO() { }
-        public HotelRoomReservationDTO(HotelRoomDTO HotelRoom, string ClientName, string ClientSurname, DateTimeOffset ArrivalDate, DateTimeOffset DepartureDate)
-        {
-            HotelName = HotelRoom.Hotel.Name;
-            HotelStars = HotelRoom.Hotel.Stars;
-            HotelAddress = HotelRoom.Hotel.Address;
-            HotelRoomNumber = HotelRoom.Number;
-            HotelRoomSleepingPlaces = HotelRoom.SleepingPlaces;
-            HotelRoomPrice = HotelRoom.Price;
-            this.ClientName = ClientName;
-            this.ClientSurname = ClientSurname;
-            this.ArrivalDate = ArrivalDate;
-            this.DepartureDate = DepartureDate;
-        }
-
         public int Id { get; set; }
         public string HotelName { get; set; }
         public int HotelStars { get; set; }

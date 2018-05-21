@@ -15,8 +15,6 @@ namespace DAL
         public GenericRepository(DbContext Context)
         {
             this.Context = Context;
-            //if (!Context.Database.Exists())
-                //Context.Database.Create();
             DbSet = Context.Set<T>();
         }
 
@@ -41,11 +39,6 @@ namespace DAL
             DbSet.Add(Item);
             Context.SaveChanges();
         }
-        /*public void Modify(T Item)
-        {
-            Context.Entry(Item).State = EntityState.Modified;
-            Context.SaveChanges();
-        }*/
         public void Modify(int Id, T Item)
         {
             Context.Entry(Context.Set<T>().Find(Id)).CurrentValues.SetValues(Item);
@@ -69,6 +62,12 @@ namespace DAL
         public List<T> GetAll(params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = DbSet;
+            return includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty)).ToList();
+        }
+
+        public List<T> GetAll(Func<T, bool> predicate, params Expression<Func<T, object>>[] includeProperties)
+        {
+            var query = DbSet.Where(predicate).AsQueryable();
             return includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty)).ToList();
         }
 

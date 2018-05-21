@@ -10,16 +10,6 @@ namespace DAL.Entities
 {
     public class HotelRoom
     {
-        public HotelRoom() { }
-        public HotelRoom(Hotel Hotel, int Number, int SleepingPlaces, int Price)
-        {
-            this.Hotel = Hotel;
-            this.Number = Number;
-            this.SleepingPlaces = SleepingPlaces;
-            this.Price = Price;
-            BookedDays = new List<DateTimeOffset>();
-        }
-
         public int Id { get; set; }
         public int HotelId { get; set; }
         [ForeignKey("HotelId")]
