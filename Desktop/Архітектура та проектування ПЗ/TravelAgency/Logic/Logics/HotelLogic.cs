@@ -66,8 +66,7 @@ namespace Logic
 
         public HotelDTO GetHotel(int Id)
         {
-            return HotelLogicMapper.Map<Hotel, HotelDTO>(UoW.Hotels.GetAll(x => x.Id == Id, x => x.Rooms).FirstOrDefault()
-                );
+            return HotelLogicMapper.Map<Hotel, HotelDTO>(UoW.Hotels.GetAll(x => x.Id == Id, x => x.Rooms).FirstOrDefault());
         }
     }
 }

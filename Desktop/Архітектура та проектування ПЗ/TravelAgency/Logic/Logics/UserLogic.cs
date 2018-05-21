@@ -110,7 +110,7 @@ namespace Logic
         public void ReserveRoom(int UserId, int HotelId, int HotelRoomId, DateTimeOffset ArrivalDate, DateTimeOffset DepartureDate)
         {
             User user = UoW.Users.GetAll(u => u.Id == UserId, u => u.HotelRoomReservations).FirstOrDefault();
-            HotelRoom hotelroom = UoW.Hotels.GetAll(h => h.Id == HotelId, h => h.Rooms).FirstOrDefault().Rooms.FirstOrDefault();
+            HotelRoom hotelroom = UoW.Hotels.GetAll(h => h.Id == HotelId, h => h.Rooms).FirstOrDefault().Rooms.FirstOrDefault(r => r.Id == HotelRoomId);
 
             foreach (DateTimeOffset d in hotelroom.BookedDays)
             {
