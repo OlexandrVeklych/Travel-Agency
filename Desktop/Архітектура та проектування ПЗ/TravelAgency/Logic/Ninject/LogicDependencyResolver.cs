@@ -9,9 +9,15 @@ namespace Logic
 {
     public static class LogicDependencyResolver
     {
+        static UnitOfWork UoW;
+        static LogicDependencyResolver()
+        {
+            UoW = new UnitOfWork();
+        }
+
         public static IUnitOfWork ResolveUoW()
         {
-            return new UnitOfWork();
+            return UoW;
         }
     }
 }

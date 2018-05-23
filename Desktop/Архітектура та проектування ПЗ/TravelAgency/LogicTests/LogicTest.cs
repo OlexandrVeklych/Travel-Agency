@@ -250,21 +250,21 @@ namespace LogicTests
 
             Assert.That(TourLogic.GetAllToursTemplates().Count() == 6);
 
-            /*Assert.That(TourLogic.FindTourTemplatesByType("Hot").Count() == 3);
-            Assert.That(TourLogic.FindTourTemplatesByType("Excursion").Count() == 1);
-            Assert.That(TourLogic.FindTourTemplatesByType("Error").Count() == 0);
-            Assert.That(TourLogic.FindTourTemplatesByType("Excursion").ToList()[0].City == "Hust");
+            Assert.That(TourLogic.FindTourTemplates("Hot").Count() == 3);
+            Assert.That(TourLogic.FindTourTemplates("Excursion").Count() == 1);
+            Assert.That(TourLogic.FindTourTemplates("Error").Count() == 0);
+            Assert.That(TourLogic.FindTourTemplates("Excursion").ToList()[0].City == "Hust");
 
-            Assert.That(TourLogic.FindTourTemplatesByCountry("USA").Count() == 1);
-            Assert.That(TourLogic.FindTourTemplatesByCountry("Ukraine").Count() == 3);
-            Assert.That(TourLogic.FindTourTemplatesByCountry("Error").Count() == 0);
-            Assert.That(TourLogic.FindTourTemplatesByCountry("USA").ToList()[0].City == "New Yourk");
+            Assert.That(TourLogic.FindTourTemplates("USA").Count() == 1);
+            Assert.That(TourLogic.FindTourTemplates("Ukraine").Count() == 3);
+            Assert.That(TourLogic.FindTourTemplates("Error").Count() == 0);
+            Assert.That(TourLogic.FindTourTemplates("USA").ToList()[0].City == "New Yourk");
 
-            Assert.That(TourLogic.FindTourTemplatesByCity("Moscow").Count() == 2);
-            Assert.That(TourLogic.FindTourTemplatesByCity("New Yourk").Count() == 1);
-            Assert.That(TourLogic.FindTourTemplatesByCity("Error").Count() == 0);
+            Assert.That(TourLogic.FindTourTemplates("Moscow").Count() == 2);
+            Assert.That(TourLogic.FindTourTemplates("New Yourk").Count() == 1);
+            Assert.That(TourLogic.FindTourTemplates("Error").Count() == 0);
 
-            Assert.That(TourLogic.FindTourTemplatesByCity("New Yourk").ToList()[0].Country == "USA");*/
+            Assert.That(TourLogic.FindTourTemplates("New Yourk").ToList()[0].Country == "USA");
 
             Assert.That(TourLogic.FindTourTemplatesByDuration(0, 3).Count() == 5);
             Assert.That(TourLogic.FindTourTemplatesByDuration(10, 10).Count() == 1);
